@@ -1,11 +1,12 @@
 // LIFE CHECK:
-// #include <iostream>
+ #include <iostream>
 
 //int main() {
 //	std::cout << "Hello" << std::endl;
 //	std::cin.get();
 //}
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 int main(void)
@@ -27,6 +28,14 @@ int main(void)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+
+	// Print out version
+	std::cout << glGetString(GL_VERSION) << std::endl;
+
+	// This needs to happen after we have a valid context, see more in http://glew.sourceforge.net/basic.html
+	if (glewInit() != GLEW_OK)
+		std::cout << "Error on glewInit()" << std::endl;
+	
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
