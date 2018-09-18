@@ -40,6 +40,83 @@ Memos from the OpenGL course by TheChernoProject. Course playlist can be found [
 - worth reading the GLEW documentation since it isn't totally obvious (for example `glewInit()` and the requirement of having a valid OpenGL rendering context before getting started)
 - Now you can access OpenGL => 4.4.0
 
+## Part 4: Vertex Buffers and Drawing a Triangle
+- a **vertex buffer** is just a memorybuffer, an array of bytes of memory, a blob of memory into which we can push bytes
+- because it's in OpenGL, it's in our GPU in our video RAM (?)
+
+What happens is:
+1) I define a bunch of data
+2) I put it in my GPU's VRAM
+3) I issue a draw call on that bunch ("Read from it like this (insert definition of how to read it) and draw it on the screen like this (some info about this, too)")
+
+- so we need to tell the GPU what to do with a program, and that program is called a **shader**
+- a shader is just a program that runs on the GPU
+- OpenGL operates as a **state machine** - you set a series of state, and everything is very contextual
+- what it needs to draw a triangle is part of the state ("Select this buffer", "Select this shader", "Draw me (based on the prev stuff) a triangle")
+- a vertex buffer is generated with the method `glGenBuffers()` that takes in the number of buffers and a pointer to an unsigned int (which will become the integer id of the generated buffer)
+- after creating it, select the buffer by `glBindBuffer()`
+- after this, you can insert data into the buffer by `glBufferData()`
+- the size of the data would be for example a float array (called `positoins`) with 6 floating point numbers, which would make the buffer size `sizeof(positions)` or `6*sizeof(float)`
+- [docs.gl](docs.gl) is a great resource for finding info about these methods
+- sidenote: the embedded systems versions of opengl are the ones used in mobile devices
+- the vertexbuffer can be static or dynamic (are we changing the shape we are drawing?)
+- you also need to specify how to draw the data - `glDrawArrays(GL_TRIANGLES, startindex, nrOfIndicesToBeRendered)`
+- if we have an index buffer we can use `glDrawElements()`
+
+## Part 5: Vertex Atrributes and Layouts in OpenGL
+1) Supply graphics card with data
+2) Store memory with data on GPU
+3) Use a shader to read data and write it on screen
+
+- when the shader starts reading the specified data it needs to know what data it is
+- so we need to tell OpenGL what the data in the memory is
+- --> `glVertexAttribPointer()` 
+- in case our data would look like this: 
+```cpp
+float positions[6] = {
+  0.5f, 0.5f, // Vertex 1 (has 2 attributes, 2 positions)
+  0.0f, 0.0f, // Vertex 2
+  -0.5f, -0.5f  // Vertex 3
+}
+```
+- `glVertexAttribPointer(0 (first position attribute), 2 (floats per vertex), GL_FLOAT (type), GL_FALSE (normalized), 2*sizeof(float) (stride = length of one vertex in buffer), 0 (pointer = pointer to attrib inside vertex))`
+- stride = distance in bytes to next vertex
+- pointer = distance in size to second attribute
+- a vertex == a point in our coordinate system (not a position, since it can contain way more info such as texture, normals, tangents...) for position, **vertex position** is a  better term
+- after all of this we still need to enable our vertex attribute by calling `glEnableVertexAttribArray(0)`
+
+## Part 6: Shaders in OpenGL
+- a shader - a program that runs on our GPU, not CPU like everything else
+- written as a string and given to the graphics card
+- the GPU is made for graphics and dows some things way better than the CPU
+- vertex and fragment (pixel) shaders are by far the most popular shader types
+- now we ae processing the draw call and turning data into patterns on the screen
+
+When we issue a draw call:
+1) The vertex shader is called (called once for each vertex and tells the GPU **where in your window you want that vertex to be**)
+2) The fragment shader is called (called once per pixel and rasterize the area that is to be filled in with the determined color) 
+3) We see stuff on the screen
+
+## Part 7: Writing Shaders
+- one way of making a simple shader is to have two functions, `CreateShader()` that takes strings for vertex- and fragmentshaders as params and `CompileShader()` that also takes in a string and a type integer and calls `glCreateShader()`
+
+**CreateShader(vertexShader, fragmentShader)**
+0) Create a program (`glCreateProgram()`) that will store the shaders
+1) Call CompileShader for vertex shader
+2) Call CompileShader for fragment shader
+3) Attach these shaders to our program so we can use both of them
+4) Link the program
+5) Validate program
+6) Detatch shaders since they are now attached to the program
+
+**CompileShader(type, source)**
+1) Create shader and store id
+2) Set shader source
+3) Compile shader
+
+
+
+
 
 
 
