@@ -40,7 +40,7 @@ Memos from the OpenGL course by TheChernoProject. Course playlist can be found [
 - worth reading the GLEW documentation since it isn't totally obvious (for example `glewInit()` and the requirement of having a valid OpenGL rendering context before getting started)
 - Now you can access OpenGL => 4.4.0
 
-## Part 4: Vertex Buffers and Drawing a Triangle
+## PART 4: Vertex Buffers and Drawing a Triangle
 - a **vertex buffer** is just a memorybuffer, an array of bytes of memory, a blob of memory into which we can push bytes
 - because it's in OpenGL, it's in our GPU in our video RAM (?)
 
@@ -63,7 +63,7 @@ What happens is:
 - you also need to specify how to draw the data - `glDrawArrays(GL_TRIANGLES, startindex, nrOfIndicesToBeRendered)`
 - if we have an index buffer we can use `glDrawElements()`
 
-## Part 5: Vertex Atrributes and Layouts in OpenGL
+## PART 5: Vertex Atrributes and Layouts in OpenGL
 1) Supply graphics card with data
 2) Store memory with data on GPU
 3) Use a shader to read data and write it on screen
@@ -85,7 +85,7 @@ float positions[6] = {
 - a vertex == a point in our coordinate system (not a position, since it can contain way more info such as texture, normals, tangents...) for position, **vertex position** is a  better term
 - after all of this we still need to enable our vertex attribute by calling `glEnableVertexAttribArray(0)`
 
-## Part 6: Shaders in OpenGL
+## PART 6: Shaders in OpenGL
 - a shader - a program that runs on our GPU, not CPU like everything else
 - written as a string and given to the graphics card
 - the GPU is made for graphics and dows some things way better than the CPU
@@ -97,10 +97,10 @@ When we issue a draw call:
 2) The fragment shader is called (called once per pixel and rasterize the area that is to be filled in with the determined color) 
 3) We see stuff on the screen
 
-## Part 7: Writing Shaders
+## PART 7: Writing Shaders
 - one way of making a simple shader is to have two functions, `CreateShader()` that takes strings for vertex- and fragmentshaders as params and `CompileShader()` that also takes in a string and a type integer and calls `glCreateShader()`
 
-**CreateShader(vertexShader, fragmentShader)**
+**CreateShader(vertexShader, fragmentShader)**  
 0) Create a program (`glCreateProgram()`) that will store the shaders
 1) Call CompileShader for vertex shader
 2) Call CompileShader for fragment shader
